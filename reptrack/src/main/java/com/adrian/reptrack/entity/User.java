@@ -30,24 +30,12 @@ public class User {
     }
 
     public String getUsername(){
-        if(username.isEmpty()){
-            throw new IllegalStateException("Username is empty");
-        }
         return username;
     }
      public String getEmail(){
-        if(email.isEmpty()){
-            throw new IllegalStateException("E-mail is empty");
-        }
-        else if (!email.contains("@")){
-            throw new IllegalStateException("E-mail is not valid");
-        }
         return email;
     }
      public String getPassword(){
-        if(password.isEmpty()){
-            throw new IllegalStateException("Password is empty");
-        }
         return password;
     }
 
