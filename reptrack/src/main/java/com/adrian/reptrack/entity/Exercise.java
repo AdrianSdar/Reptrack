@@ -36,7 +36,7 @@ public class Exercise {
         return id;
     }
 
-    public String getexerciseName(){
+    public String getExerciseName(){
         return exerciseName;
     }
 
@@ -48,7 +48,7 @@ public class Exercise {
         return reps;
     }
 
-    public double weight(){
+    public double getWeight(){
         return weight;
     }
 
