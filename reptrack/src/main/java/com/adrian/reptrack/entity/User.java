@@ -16,7 +16,7 @@ public class User {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String name;
     private String email;
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
@@ -24,7 +24,7 @@ public class User {
     public User(){}
 
     public User(String username, String email, String password){
-        this.username = username;
+        this.name = username;
         this.email = email;
         this.password = password;
     } 
@@ -33,8 +33,8 @@ public class User {
         return id;
     }
 
-    public String getUsername(){
-        return username;
+    public String getName(){
+        return name;
     }
      public String getEmail(){
         return email;
@@ -47,8 +47,8 @@ public class User {
     public void setId(Long newId){
         this.id = newId;
     }
-    public void setUsername(String newUsername){
-        this.username = newUsername;
+    public void setName(String newUsername){
+        this.name = newUsername;
     }
     public void setEmail(String newEmail){
         this.email = newEmail;

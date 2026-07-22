@@ -18,12 +18,14 @@ public class UserService {
     }
     
     public void registerUser(User user){
-        System.out.println(user.getPassword());
         if(user.getEmail() == null || user.getEmail().isBlank()){
             throw new IllegalStateException("Email is required!");
         }
-        else if(user.getUsername() == null || user.getUsername().isBlank()){
-            throw new IllegalStateException("Username is required!");
+        else if(user.getName() == null || user.getName().isBlank()){
+            throw new IllegalStateException("Name is required!");
+        }
+        else if(user.getName().trim().length() > 20){
+            throw new IllegalStateException("Name is too long!");
         }
         else if(user.getPassword() == null || user.getPassword().isBlank()){
             throw new IllegalStateException("Password is required!");
@@ -51,7 +53,7 @@ public class UserService {
 
     public User updateUserById(Long id, User updatedUser){
         User existingUser = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found!"));
-        existingUser.setUsername(updatedUser.getUsername());
+        existingUser.setName(updatedUser.getName());
         existingUser.setEmail(updatedUser.getEmail());
         existingUser.setPassword(updatedUser.getPassword());
         userRepository.save(existingUser);
