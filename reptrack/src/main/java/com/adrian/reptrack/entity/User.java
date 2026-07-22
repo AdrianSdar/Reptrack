@@ -1,5 +1,8 @@
 package com.adrian.reptrack.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -15,6 +18,7 @@ public class User {
     private Long id;
     private String username;
     private String email;
+    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
     public User(){}
@@ -35,7 +39,8 @@ public class User {
      public String getEmail(){
         return email;
     }
-     public String getPassword(){
+    
+    public String getPassword(){
         return password;
     }
 
