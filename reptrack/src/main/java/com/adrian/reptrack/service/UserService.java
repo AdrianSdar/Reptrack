@@ -40,6 +40,13 @@ public class UserService {
         }
     }
 
+    public void login(User user){
+        User existingUser = userRepository.findByEmail(user.getEmail()).orElseThrow(() -> new IllegalStateException("Invalid email or password!"));
+        if(!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())){
+            throw new IllegalStateException("Invalid email or password!");
+        }
+    }
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }

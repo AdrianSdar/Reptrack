@@ -11,21 +11,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.adrian.reptrack.entity.User;
+import com.adrian.reptrack.service.JwtService;
 import com.adrian.reptrack.service.UserService;
 
 @RestController
 @RequestMapping ("/users")
 public class UserController {
     private final UserService userService;
+    private final JwtService jwtService;
 
-    public UserController (UserService userService){
+    public UserController (UserService userService, JwtService jwtService){
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping
     public String register(@RequestBody User user){
         userService.registerUser(user);
         return "User registered";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user){
+        userService.login(user);
+        return jwtService.generateToken(user);
     }
 
     @GetMapping
