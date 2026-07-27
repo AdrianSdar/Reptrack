@@ -12,9 +12,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private JwtService jwtService;
 
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, JwtService jwtService){
         this.userRepository = userRepository;
+        this.jwtService = jwtService;
     }
     
     public void registerUser(User user){
@@ -30,7 +32,7 @@ public class UserService {
         else if(user.getPassword() == null || user.getPassword().isBlank()){
             throw new IllegalStateException("Password is required!");
         }
-        else if(userRepository.existsByEmail(user.getEmail())){
+        else if(userRepository.existsByEmailIgnoreCase(user.getEmail())){
             throw new IllegalStateException("Email has already been used!");
         }
         else{
@@ -40,11 +42,12 @@ public class UserService {
         }
     }
 
-    public void login(User user){
-        User existingUser = userRepository.findByEmail(user.getEmail()).orElseThrow(() -> new IllegalStateException("Invalid email or password!"));
+    public String login(User user){
+        User existingUser = userRepository.findByEmailIgnoreCase(user.getEmail()).orElseThrow(() -> new IllegalStateException("Invalid email or password!"));
         if(!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())){
             throw new IllegalStateException("Invalid email or password!");
         }
+        return jwtService.generateToken(existingUser);
     }
 
     public List<User> getAllUsers(){

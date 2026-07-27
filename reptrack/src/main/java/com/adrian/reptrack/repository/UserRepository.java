@@ -9,7 +9,7 @@ import com.adrian.reptrack.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByEmail(String email);
-    Optional <User> findByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
+    Optional <User> findByEmailIgnoreCase(String email);
 
 }
