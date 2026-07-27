@@ -10,7 +10,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.adrian.reptrack.entity.User;
+
+import com.adrian.reptrack.dto.LoginRequest;
+import com.adrian.reptrack.dto.LoginResponse;
+import com.adrian.reptrack.dto.RegisterRequest;
+import com.adrian.reptrack.dto.UserResponse;
+import com.adrian.reptrack.dto.UserUpdateRequest;
 import com.adrian.reptrack.service.UserService;
 
 @RestController
@@ -23,23 +28,23 @@ public class UserController {
     }
 
     @PostMapping
-    public String register(@RequestBody User user){
-        userService.registerUser(user);
+    public String register(@RequestBody RegisterRequest registerRequest){
+        userService.registerUser(registerRequest);
         return "User registered";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user){
-        return userService.login(user);
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return userService.login(loginRequest);
     }
 
     @GetMapping
-    public List<User> getAllUsers(){
+    public List<UserResponse> getAllUsers(){
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id){
+    public UserResponse getUserById(@PathVariable Long id){
         return userService.getUserById(id);
     }
 
@@ -49,8 +54,8 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User updateUserById(@PathVariable Long id, @RequestBody User user){
-        return userService.updateUserById(id, user);
+    public UserUpdateRequest updateUserById(@PathVariable Long id, @RequestBody UserUpdateRequest userUpdateRequest){
+        return userService.updateUserById(id, userUpdateRequest);
     }
     
 }

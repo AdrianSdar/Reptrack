@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.adrian.reptrack.dto.LoginRequest;
+import com.adrian.reptrack.dto.LoginResponse;
+import com.adrian.reptrack.dto.RegisterRequest;
+import com.adrian.reptrack.dto.UserResponse;
+import com.adrian.reptrack.dto.UserUpdateRequest;
 import com.adrian.reptrack.entity.User;
 import com.adrian.reptrack.repository.UserRepository;
 
@@ -19,54 +25,61 @@ public class UserService {
         this.jwtService = jwtService;
     }
     
-    public void registerUser(User user){
-        if(user.getEmail() == null || user.getEmail().isBlank()){
+    public void registerUser(RegisterRequest registerRequest){
+        if(registerRequest.email() == null || registerRequest.email().isBlank()){
             throw new IllegalStateException("Email is required!");
         }
-        else if(user.getName() == null || user.getName().isBlank()){
+        else if(registerRequest.name() == null || registerRequest.name().isBlank()){
             throw new IllegalStateException("Name is required!");
         }
-        else if(user.getName().trim().length() > 20){
+        else if(registerRequest.name().trim().length() > 20){
             throw new IllegalStateException("Name is too long!");
         }
-        else if(user.getPassword() == null || user.getPassword().isBlank()){
+        else if(registerRequest.password() == null || registerRequest.password().isBlank()){
             throw new IllegalStateException("Password is required!");
         }
-        else if(userRepository.existsByEmailIgnoreCase(user.getEmail())){
+        else if(userRepository.existsByEmailIgnoreCase(registerRequest.email())){
             throw new IllegalStateException("Email has already been used!");
         }
         else{
-            String hashedPassword = passwordEncoder.encode(user.getPassword());
+            String hashedPassword = passwordEncoder.encode(registerRequest.password());
+            User user = new User();
+            user.setName(registerRequest.name());
+            user.setEmail(registerRequest.email());
             user.setPassword(hashedPassword);
             userRepository.save(user);
         }
     }
 
-    public String login(User user){
-        User existingUser = userRepository.findByEmailIgnoreCase(user.getEmail()).orElseThrow(() -> new IllegalStateException("Invalid email or password!"));
-        if(!passwordEncoder.matches(user.getPassword(), existingUser.getPassword())){
+    public LoginResponse login(LoginRequest loginRequest){
+        User existingUser = userRepository.findByEmailIgnoreCase(loginRequest.email()).orElseThrow(() -> new IllegalStateException("Invalid email or password!"));
+        if(!passwordEncoder.matches(loginRequest.password(), existingUser.getPassword())){
             throw new IllegalStateException("Invalid email or password!");
         }
-        return jwtService.generateToken(existingUser);
+        String token = jwtService.generateToken(existingUser);
+        return new LoginResponse(token);
     }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers(){
+        return userRepository.findAll().stream().map(user -> new UserResponse(user.getId(), user.getName(), user.getEmail())).toList();
     }
-    public User getUserById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found!"));
+
+    public UserResponse getUserById(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found!"));
+        return new UserResponse(user.getId(), user.getName(), user.getEmail());
     }
 
     public void deleteUserById(Long id){
         userRepository.deleteById(id);
     }
 
-    public User updateUserById(Long id, User updatedUser){
+    public UserUpdateRequest updateUserById(Long id, UserUpdateRequest userUpdateRequest){
         User existingUser = userRepository.findById(id).orElseThrow(() -> new IllegalStateException("User not found!"));
-        existingUser.setName(updatedUser.getName());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPassword(updatedUser.getPassword());
+        existingUser.setName(userUpdateRequest.name());
+        existingUser.setEmail(userUpdateRequest.email());
+        String hashedPassword = passwordEncoder.encode(userUpdateRequest.password());
+        existingUser.setPassword(hashedPassword);
         userRepository.save(existingUser);
-        return existingUser;
+        return new UserUpdateRequest(existingUser.getName(), existingUser.getEmail(), hashedPassword);
     }
 }

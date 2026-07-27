@@ -18,13 +18,12 @@ public class User {
     private Long id;
     private String name;
     private String email;
-    @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
 
     public User(){}
 
-    public User(String username, String email, String password){
-        this.name = username;
+    public User(String name, String email, String password){
+        this.name = name;
         this.email = email;
         this.password = password;
     } 
@@ -47,8 +46,8 @@ public class User {
     public void setId(Long newId){
         this.id = newId;
     }
-    public void setName(String newUsername){
-        this.name = newUsername;
+    public void setName(String newName){
+        this.name = newName;
     }
     public void setEmail(String newEmail){
         this.email = newEmail;
