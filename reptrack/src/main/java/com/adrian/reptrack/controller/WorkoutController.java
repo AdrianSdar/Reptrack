@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.adrian.reptrack.entity.Workout;
+
+import com.adrian.reptrack.dto.WorkoutRequest;
+import com.adrian.reptrack.dto.WorkoutResponse;
+import com.adrian.reptrack.dto.WorkoutUpdateRequest;
 import com.adrian.reptrack.service.WorkoutService;
 
 @RestController
@@ -23,18 +26,18 @@ public class WorkoutController {
     }
 
     @PostMapping
-    public String createWorkout (@RequestBody Workout workout){
-        workoutService.createWorkout(workout);
+    public String createWorkout (@RequestBody WorkoutRequest workoutRequest){
+        workoutService.createWorkout(workoutRequest);
         return "Workout has been created";
     }
 
     @GetMapping
-    public List<Workout> getAllWorkouts(){
+    public List<WorkoutResponse> getAllWorkouts(){
         return workoutService.getAllWorkouts();
     }
 
     @GetMapping("/{id}")
-    public Workout getWorkoutById(@PathVariable Long id){
+    public WorkoutResponse getWorkoutById(@PathVariable Long id){
         return workoutService.getWorkoutById(id);
     }
 
@@ -44,8 +47,8 @@ public class WorkoutController {
     }
 
     @PutMapping("/{id}")
-    public Workout updateWorkoutById(@PathVariable Long id, @RequestBody Workout workout){
-        return workoutService.updateWorkoutById(id, workout);
+    public WorkoutUpdateRequest updateWorkoutById(@PathVariable Long id, @RequestBody WorkoutUpdateRequest workoutUpdateRequest){
+        return workoutService.updateWorkoutById(id, workoutUpdateRequest);
     }
     
 }
