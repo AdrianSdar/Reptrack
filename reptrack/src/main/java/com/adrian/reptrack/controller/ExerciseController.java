@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.adrian.reptrack.dto.ExerciseRequest;
+import com.adrian.reptrack.dto.ExerciseResponse;
+import com.adrian.reptrack.dto.ExerciseUpdateRequest;
 import com.adrian.reptrack.entity.Exercise;
 import com.adrian.reptrack.service.ExerciseService;
 
@@ -24,18 +28,18 @@ public class ExerciseController {
     }
 
     @PostMapping
-    public String createExercise(@RequestBody Exercise exercise){
-        exerciseService.createExercise(exercise);
+    public String createExercise(@RequestBody ExerciseRequest exerciseRequest){
+        exerciseService.createExercise(exerciseRequest);
         return "Exercise has been created!"; 
     }
 
     @GetMapping
-    public List<Exercise> getAllExercises(){
+    public List<ExerciseResponse> getAllExercises(){
         return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{id}")
-    public Exercise getExerciseById(@PathVariable Long id){
+    public ExerciseResponse getExerciseById(@PathVariable Long id){
         return exerciseService.getExerciseById(id);
     }
 
@@ -45,7 +49,7 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}")
-    public Exercise updateExerciseById(@PathVariable Long id, @RequestBody Exercise exercise){
-        return exerciseService.updateExerciseById(id, exercise);
+    public ExerciseUpdateRequest updateExerciseById(@PathVariable Long id, @RequestBody ExerciseUpdateRequest exerciseUpdateRequest){
+        return exerciseService.updateExerciseById(id, exerciseUpdateRequest);
     }
 }
