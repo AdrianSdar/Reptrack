@@ -9,9 +9,13 @@ class AppColors{
 }
 
 class AppTextStyles{
-  static const h1 = TextStyle(fontSize: 40, color: AppColors.white, fontWeight: FontWeight.bold, fontFamily: 'Montserrat-Regular');
-  static const h1_2 = TextStyle(fontSize: 30, color: AppColors.black, fontWeight: FontWeight.bold, fontFamily: 'Montserrat-Regular');
+  static const h1 = TextStyle(fontSize: 25, color: AppColors.white, fontWeight: FontWeight.bold, fontFamily: 'Montserrat-Regular');
+  static const h1_2 = TextStyle(fontSize: 25, color: AppColors.black, fontWeight: FontWeight.bold, fontFamily: 'Montserrat-Regular');
   static const h2 = TextStyle(fontSize: 28, color: AppColors.white, fontWeight: FontWeight.bold, fontFamily: 'Montserrat-Regular');
   static const h3 = TextStyle(fontSize: 20, color: AppColors.greyGreen, fontWeight: FontWeight.normal, fontFamily: 'Montserrat-Regular');
   static const h3_2 = TextStyle(fontSize: 20, color: AppColors.black, fontWeight: FontWeight.normal, fontFamily: 'Montserrat-Regular');
+}
+
+class AppText{
+  static final precisionDisciplineResults = Text("PRECISION. DISCIPLINE. RESULTS", style: AppTextStyles.h3_2.copyWith(color: Colors.white.withOpacity(0.5)));
 }

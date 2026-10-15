@@ -47,42 +47,43 @@ class StartPage extends StatelessWidget{
       backgroundColor: AppColors.black,
       body: Stack(
         children: [
-          Positioned(left: 20, right: 20, bottom: 220,
+          Positioned(left: 20, right: 20, bottom: 400,
           child: Column(
             children: [
               ElevatedButton(onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (_) => const CreateAccountScreen()));
               },
-                style: ElevatedButton.styleFrom(fixedSize: const Size(260, 120), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18),),
+                style: ElevatedButton.styleFrom(fixedSize: const Size(260, 120), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
               backgroundColor: AppColors.limeGreen,),
               child: const Text("CREATE ACCOUNT", style: AppTextStyles.h1_2, textAlign: TextAlign.center,)),
             ],
           ) 
           ),
-          Positioned(left: 20, right: 20, bottom: 70,
+          Positioned(left: 20, right: 20, bottom: 250,
           child: Column(
             children: [
             ElevatedButton(onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
-            style: ElevatedButton.styleFrom(fixedSize: const Size(260, 120), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18),),
+            style: ElevatedButton.styleFrom(fixedSize: const Size(260, 120), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20),),
               backgroundColor: AppColors.limeGreen,),
               child: const Text("LOG IN", style: AppTextStyles.h1_2, textAlign: TextAlign.center,)),
           ],)),
 
-          Positioned(left: 20, right: 20, top: 20,
+          Positioned(left: 20, right: 20, top: 40,
             child: Column(
             children: [
               Image.asset('assets/images/reptrackLogo.png', width: 300,)
             ],)),
 
-            Positioned(left: 20, right: 20, bottom: 20,
+          Positioned(left: 20, right: 20, bottom: 120,
             child: Column(
               children: [
-                Text("PRECISION. DISCIPLINE. RESULTS", style: AppTextStyles.h3_2.copyWith(color: Colors.white.withOpacity(0.5)))
+                AppText.precisionDisciplineResults,
               ]
             )
             )
+
         ],
       )
     );
